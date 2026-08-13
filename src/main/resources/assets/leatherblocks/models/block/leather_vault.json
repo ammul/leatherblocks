@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "leatherblocks:block/leather_vault_top",
+    "side": "leatherblocks:block/leather_vault_side",
+    "bottom": "leatherblocks:block/leather_block"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "leatherblocks:leather_block",
+    "leatherblocks:compressed_leather_block",
+    "leatherblocks:double_compressed_leather_block",
+    "leatherblocks:triple_compressed_leather_block",
+    "leatherblocks:quadruple_compressed_leather_block",
+    "leatherblocks:quintuple_compressed_leather_block",
+    "leatherblocks:sextuple_compressed_leather_block",
+    "leatherblocks:septuple_compressed_leather_block",
+    "leatherblocks:octuple_compressed_leather_block",
+    "leatherblocks:nonuple_compressed_leather_block",
+    "leatherblocks:leather_vault"
+  ]
+}

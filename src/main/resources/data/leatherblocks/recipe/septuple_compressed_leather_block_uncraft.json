@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "leatherblocks_decompression",
+  "ingredients": [
+    {
+      "item": "leatherblocks:septuple_compressed_leather_block"
+    }
+  ],
+  "result": {
+    "id": "leatherblocks:sextuple_compressed_leather_block",
+    "count": 9
+  }
+}

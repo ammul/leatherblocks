@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "leatherblocks_compression",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "leatherblocks:triple_compressed_leather_block"
+    }
+  },
+  "result": {
+    "id": "leatherblocks:quadruple_compressed_leather_block",
+    "count": 1
+  }
+}
