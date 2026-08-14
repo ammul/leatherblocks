@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Erzeugt alle Ressourcen-Dateien (blockstates, models, lang, recipes, loot tables,
-tags) und die Texturen fuer die Leather-Blocks-Mod.
+Generates all resource files (blockstates, models, lang, recipes, loot tables,
+tags) and the textures for the Leather Blocks mod.
 
-Neue Kompressionsstufe hinzufuegen:
-  1. Hier TIERS erweitern
-  2. In ModRegistry.java TIER_NAMES um den gleichen Namen erweitern
+Adding a new compression tier:
+  1. Extend TIERS here
+  2. Extend TIER_NAMES in ModRegistry.java with the same name
   3. python3 tools/generate_resources.py
 """
 import json
@@ -55,7 +55,7 @@ def gen_vault():
     })
     write_json(f"assets/{MODID}/models/item/{VAULT}.json", {"parent": f"{MODID}:block/{VAULT}"})
 
-    # 6 Leder als 2x3 - unterscheidet sich klar vom 3x3 des Lederblocks.
+    # 6 leather as 2x3 - clearly distinct from the leather block's 3x3.
     write_json(f"data/{MODID}/recipe/{VAULT}.json", {
         "type": "minecraft:crafting_shaped",
         "category": "misc",
@@ -94,10 +94,10 @@ def gen_lang():
     for name, en_name, de_name in TIERS:
         en[f"block.{MODID}.{name}"] = en_name
         de[f"block.{MODID}.{name}"] = de_name
-    # Tooltip: %s ist die bereits gruppierte Zahl.
+    # Tooltip: %s is the already-grouped number.
     en[f"tooltip.{MODID}.worth"] = "= %s Leather"
     de[f"tooltip.{MODID}.worth"] = "= %s Leder"
-    # Tausendertrennzeichen pro Sprache.
+    # Thousands separator per language.
     en[f"tooltip.{MODID}.group_separator"] = ","
     de[f"tooltip.{MODID}.group_separator"] = "."
 
@@ -128,7 +128,7 @@ def gen_lang():
 
 
 def gen_recipes():
-    # Stufe 0 kommt aus Vanilla-Leder, jede weitere aus 9x der Stufe darunter.
+    # Tier 0 comes from vanilla leather, every other tier from 9x the tier below.
     for idx, (name, _, _) in enumerate(TIERS):
         source = "minecraft:leather" if idx == 0 else f"{MODID}:{TIERS[idx - 1][0]}"
 
@@ -165,10 +165,10 @@ def gen_loot_tables():
 
 def gen_tags():
     names = [f"{MODID}:{n}" for n, _, _ in TIERS]
-    # Wie Wolle: mit der Hacke am schnellsten, aber ohne Werkzeug abbaubar.
+    # Like wool: fastest with a hoe, but mineable without a tool.
     write_json("data/minecraft/tags/block/mineable/hoe.json",
                {"replace": False, "values": names + [f"{MODID}:{VAULT}"]})
-    # Damit Mods wie Mekanism/AE2 die Bloecke als Lagerbloecke erkennen.
+    # So mods like Mekanism/AE2 recognize the blocks as storage blocks.
     write_json("data/c/tags/block/storage_blocks.json",
                {"replace": False, "values": names})
     write_json("data/c/tags/item/storage_blocks.json",
@@ -176,7 +176,7 @@ def gen_tags():
 
 
 # --------------------------------------------------------------------------
-# Texturen
+# Textures
 # --------------------------------------------------------------------------
 def gen_textures():
     from PIL import Image
@@ -185,11 +185,11 @@ def gen_textures():
     os.makedirs(out_dir, exist_ok=True)
 
     for tier, (name, _, _) in enumerate(TIERS):
-        rng = random.Random(1337)          # gleiche Koernung auf allen Stufen
+        rng = random.Random(1337)          # same grain on every tier
         img = Image.new("RGBA", (16, 16))
         px = img.load()
 
-        # Grundton wird pro Stufe etwas dunkler/gesaettigter
+        # base tone gets a bit darker/more saturated per tier
         base = (
             168 - tier * 8,
             112 - tier * 6,
@@ -199,7 +199,7 @@ def gen_textures():
         for y in range(16):
             for x in range(16):
                 n = rng.randint(-14, 14)
-                # leichte Ledernarbung
+                # slight leather grain
                 if (x * 3 + y * 5) % 7 == 0:
                     n -= 8
                 px[x, y] = (
@@ -213,21 +213,21 @@ def gen_textures():
             r, g, b, a = px[x, y]
             px[x, y] = (int(r * f), int(g * f), int(b * f), 255)
 
-        # Rahmen: oben/links hell, unten/rechts dunkel -> Naht-Optik
+        # frame: light top/left, dark bottom/right -> seam look
         for i in range(16):
             shade(i, 0, 1.18)
             shade(0, i, 1.18)
             shade(i, 15, 0.72)
             shade(15, i, 0.72)
 
-        # Stichnaht ein Pixel innerhalb des Rahmens
+        # stitching one pixel inside the frame
         for i in range(2, 14, 3):
             shade(i, 2, 0.62)
             shade(i, 13, 0.62)
             shade(2, i, 0.62)
             shade(13, i, 0.62)
 
-        # Nieten zeigen die Kompressionsstufe an (0 = keine)
+        # rivets indicate the compression tier (0 = none)
         studs = [(7, 7),
                  (4, 4), (10, 4), (4, 10), (10, 10),
                  (7, 4), (4, 7), (10, 7), (7, 10)]
@@ -263,7 +263,7 @@ def gen_vault_textures():
         r, g, b, a = px[x, y]
         px[x, y] = (int(min(255, r * f)), int(min(255, g * f)), int(min(255, b * f)), 255)
 
-    # Deckel: dunkle Einwurfoeffnung mit hellem Rand
+    # Lid: dark drop-in slot with a light border
     img, px = leather_base(4711, (150, 100, 60))
     for i in range(16):
         shade(px, i, 0, 1.18)
@@ -280,7 +280,7 @@ def gen_vault_textures():
         shade(px, 11, i, 1.25)
     img.save(os.path.join(out_dir, f"{VAULT}_top.png"))
 
-    # Seite: zwei waagerechte Riemen mit Schnalle
+    # Side: two horizontal straps with a buckle
     img, px = leather_base(4712, (150, 100, 60))
     for i in range(16):
         shade(px, i, 0, 1.18)
@@ -307,4 +307,4 @@ if __name__ == "__main__":
     gen_textures()
     gen_vault()
     gen_vault_textures()
-    print(f"Ressourcen fuer {len(TIERS)} Bloecke erzeugt.")
+    print(f"Generated resources for {len(TIERS)} blocks.")

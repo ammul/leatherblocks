@@ -1,96 +1,96 @@
 # Leather Blocks
 
-Winzige NeoForge-Mod für **Minecraft 1.21.1 / NeoForge 21.1.x** (ATM10).
-Leder lässt sich zu Blöcken pressen, die Blöcke lassen sich weiter komprimieren.
+Tiny NeoForge mod for **Minecraft 1.21.1 / NeoForge 21.1.x** (ATM10).
+Leather can be pressed into blocks, and the blocks can be further compressed.
 
-## Inhalt
+## Contents
 
-| Stufe | Block | entspricht Leder |
+| Tier | Block | equals leather |
 |---|---|---|
-| 0 | Lederblock | 9 |
-| 1 | Komprimierter Lederblock | 81 |
-| 2 | Doppelt komprimiert | 729 |
-| 3 | Dreifach komprimiert | 6.561 |
-| 4 | Vierfach komprimiert | 59.049 |
-| 5 | Fünffach komprimiert | 531.441 |
-| 6 | Sechsfach komprimiert | 4.782.969 |
-| 7 | Siebenfach komprimiert | 43.046.721 |
-| 8 | Achtfach komprimiert | 387.420.489 |
-| 9 | Neunfach komprimiert | 3.486.784.401 |
+| 0 | Leather Block | 9 |
+| 1 | Compressed Leather Block | 81 |
+| 2 | Double Compressed | 729 |
+| 3 | Triple Compressed | 6,561 |
+| 4 | Quadruple Compressed | 59,049 |
+| 5 | Quintuple Compressed | 531,441 |
+| 6 | Sextuple Compressed | 4,782,969 |
+| 7 | Septuple Compressed | 43,046,721 |
+| 8 | Octuple Compressed | 387,420,489 |
+| 9 | Nonuple Compressed | 3,486,784,401 |
 
-Jede Stufe: 3×3 der Stufe darunter → 1 Block, shapeless zurück → 9 Stück.
-Textur zeigt die Stufe über die Anzahl der Nieten (0–9, würfelartig angeordnet).
-Jeder Block zeigt seine Leder-Äquivalenz im Tooltip an (`= 3.486.784.401 Leder`).
-Das Tausendertrennzeichen kommt aus der Sprachdatei (`.` für de_de, `,` für en_us),
-gerechnet wird mit `long` — Stufe 9 passt nicht mehr in ein `int`.
-Die Blöcke speichern keinen Zähler, der Wert ist rein informativ.
+Each tier: 3×3 of the tier below → 1 block, shapeless back → 9 pieces.
+The texture shows the tier via the number of rivets (0–9, arranged cube-like).
+Each block shows its leather equivalence in the tooltip (`= 3,486,784,401 Leather`).
+The thousands separator comes from the language file (`.` for de_de, `,` for en_us),
+computed with `long` — tier 9 no longer fits in an `int`.
+The blocks don't store a counter, the value is purely informational.
 
-Eigenschaften bewusst minimal: Wolle-Sound, braune Kartenfarbe, ohne Werkzeug
-abbaubar (mit Hacke am schnellsten), Härte 0.8 + 0.2 pro Stufe (Stufe 9 = 2.6), **nicht brennbar**
-(damit dir kein Lavaunfall 59k Leder frisst — `.ignitedByLava()` in
-`ModRegistry.properties()` einkommentieren, falls doch gewünscht).
+Properties are deliberately minimal: wool sound, brown map color, mineable
+without a tool (fastest with an axe), hardness 0.8 + 0.2 per tier (tier 9 = 2.6), **not flammable**
+(so a lava accident doesn't eat 59k leather from you — uncomment `.ignitedByLava()` in
+`ModRegistry.properties()` if you want that anyway).
 
-Getaggt als `c:storage_blocks`, damit AE2/Mekanism & Co. sie als Lagerblöcke sehen.
+Tagged as `c:storage_blocks`, so AE2/Mekanism & co. recognize them as storage blocks.
 
-## Lederdepot & Bestenliste
+## Leather Vault & Leaderboard
 
-Aus 6 Leder (2×3) craftbar. **Ein Depot pro Spieler** — wer ein zweites setzt,
-bekommt es sofort samt Hinweis auf die Koordinaten des ersten zurück.
+Craftable from 6 leather (2×3). **One vault per player** — whoever places a
+second one gets it back immediately, along with a hint about the first one's coordinates.
 
-Befüllbar per Hopper, Rohr oder von Hand über jedes System, das `IItemHandler`
-nutzt. Angenommen werden Vanilla-Leder und alle Kompressionsstufen; der
-Leder-Gegenwert wird dem Besitzer gutgeschrieben.
+Can be filled via hopper, pipe, or by hand through any system that uses
+`IItemHandler`. Accepts vanilla leather and all compression tiers; the
+leather equivalent is credited to the owner.
 
-**Eingeworfenes wird verbraucht.** Das ist Absicht: gäbe das Depot Items wieder
-heraus, könnte man dieselben 64 Blöcke im Kreis pumpen und den Score beliebig
-hochtreiben. So kostet jeder Punkt echtes Leder. Wer das nicht will, muss
-`extractItem` in `LeatherVaultBlockEntity.DepotHandler` implementieren **und**
-beim Herausgeben den Punktestand wieder abziehen.
+**Items dropped in are consumed.** This is intentional: if the vault gave
+items back out, you could pump the same 64 blocks in a loop and inflate the
+score indefinitely. This way every point costs real leather. If you don't
+want that, you'll need to implement `extractItem` in
+`LeatherVaultBlockEntity.DepotHandler` **and** deduct the score again on withdrawal.
 
-Der Punktestand liegt in `SavedData` an der Overworld, nicht im Block — Depot
-abbauen und woanders neu setzen verliert nichts, gibt nur den Platz wieder frei.
+The score lives in `SavedData` attached to the Overworld, not in the block —
+mining the vault and placing it elsewhere loses nothing, it just frees up the space.
 
 ```
-/leder        # eigener Stand und Platzierung
-/leder top    # Top 10
+/leder        # your own score and placement
+/leder top    # top 10
 ```
 
-Kein Vanilla-Scoreboard: dessen Scores sind `int` und laufen bei einem einzigen
-neunfach komprimierten Block über.
+No vanilla scoreboard: those scores are `int` and overflow with a single
+nonuple-compressed block.
 
-Rechtsklick auf das Depot zeigt Besitzer und Stand im Chat.
+Right-clicking the vault shows the owner and score in chat.
 
-## Bauen
+## Building
 
-Java 21 nötig.
+Requires Java 21.
 
 ```bash
 ./gradlew build          # -> build/libs/leatherblocks-1.0.0.jar
-./gradlew runClient      # zum Testen
+./gradlew runClient      # for testing
 ```
 
-Die Plugin- und NeoForge-Versionen stehen in `gradle.properties`. Falls
-ModDevGradle nicht auflöst: aktuelle Version aus dem offiziellen MDK für 1.21.1
-übernehmen (https://github.com/neoforged/MDK/tree/1.21.1), oder das MDK ziehen
-und einfach `src/` + `gradle.properties`-Werte hineinkopieren.
+The plugin and NeoForge versions are in `gradle.properties`. If
+ModDevGradle fails to resolve: take the current version from the official MDK for 1.21.1
+(https://github.com/neoforged/MDK/tree/1.21.1), or pull the MDK
+and just copy in `src/` + the `gradle.properties` values.
 
-## Installieren
+## Installing
 
-Jar in den `mods/`-Ordner — **auf Server und allen Clients**. Die Mod bringt
-Blöcke und Texturen mit, ein Client ohne sie fliegt beim Join raus.
+Put the jar in the `mods/` folder — **on the server and all clients**. The mod
+ships its own blocks and textures, a client without it gets kicked on join.
 
-## Stufe hinzufügen/entfernen
+## Adding/removing a tier
 
-1. `TIER_NAMES` in `src/main/java/de/cedric/leatherblocks/ModRegistry.java` anpassen
-2. `TIERS` in `tools/generate_resources.py` identisch anpassen
+1. Adjust `TIER_NAMES` in `src/main/java/de/cedric/leatherblocks/ModRegistry.java`
+2. Adjust `TIERS` in `tools/generate_resources.py` identically
 3. `python3 tools/generate_resources.py && python3 tools/validate.py`
 
-`bash tools/check.sh` fährt alles: Ressourcen erzeugen, validieren,
-`tools/CoreTest.java` gegen die Kernlogik (Werte, Überlauf, Sortierung der
-Bestenliste), plus Syntaxprüfung der Minecraft-Klassen. Braucht nur ein JDK.
+`bash tools/check.sh` runs everything: generates resources, validates,
+runs `tools/CoreTest.java` against the core logic (values, overflow, leaderboard
+sorting), plus a syntax check of the Minecraft classes. Only needs a JDK.
 
-`LeatherTiers` und `LeatherScores` sind bewusst frei von Minecraft-Importen,
-damit die Logik ohne Spielumgebung testbar bleibt — der Validator besteht darauf.
+`LeatherTiers` and `LeatherScores` are deliberately free of Minecraft
+imports, so the logic stays testable without a game environment — the validator insists on it.
 
-`tools/validate.py` liest die Namen aus dem Java-Code und prüft dagegen alle
-JSONs, Rezeptketten, Texturen, Lang-Keys und Tags — inklusive verwaister Dateien.
+`tools/validate.py` reads the names from the Java code and checks them against all
+JSONs, recipe chains, textures, lang keys, and tags — including orphaned files.

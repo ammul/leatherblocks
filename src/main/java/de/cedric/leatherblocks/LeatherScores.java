@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Die eigentliche Bestenliste. Ebenfalls frei von Minecraft-Abhaengigkeiten -
- * LeatherDepotData haengt nur die NBT-Serialisierung dran.
+ * The actual leaderboard. Also free of Minecraft dependencies -
+ * LeatherDepotData only bolts on the NBT serialization.
  */
 public class LeatherScores {
 
@@ -19,7 +19,7 @@ public class LeatherScores {
     private final Map<UUID, Long> totals = new HashMap<>();
     private final Map<UUID, String> names = new HashMap<>();
 
-    /** Bucht Leder auf einen Spieler und gibt den neuen Gesamtstand zurueck. */
+    /** Credits leather to a player and returns the new total. */
     public long add(UUID id, String name, long amount) {
         if (amount <= 0L) {
             return get(id);
@@ -30,7 +30,7 @@ public class LeatherScores {
         return updated;
     }
 
-    /** Nur den Namen aktualisieren, z.B. wenn ein Spieler sich umbenannt hat. */
+    /** Only updates the name, e.g. when a player has renamed themselves. */
     public void touchName(UUID id, String name) {
         if (totals.containsKey(id)) {
             names.put(id, name);
@@ -50,8 +50,8 @@ public class LeatherScores {
     }
 
     /**
-     * Absteigend sortiert. Bei Gleichstand alphabetisch, damit die Reihenfolge
-     * ueber Neustarts hinweg stabil bleibt (HashMap-Iteration ist es nicht).
+     * Sorted descending. Ties broken alphabetically, so the order stays
+     * stable across restarts (HashMap iteration is not).
      */
     public List<Entry> ranking() {
         List<Entry> list = new ArrayList<>(totals.size());
@@ -69,7 +69,7 @@ public class LeatherScores {
         return all.subList(0, Math.min(limit, all.size()));
     }
 
-    /** 1-basierter Platz, 0 wenn der Spieler noch nichts eingelagert hat. */
+    /** 1-based rank, 0 if the player hasn't stored anything yet. */
     public int rankOf(UUID id) {
         if (!totals.containsKey(id)) {
             return 0;

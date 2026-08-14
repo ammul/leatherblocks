@@ -66,12 +66,12 @@ public class LeatherVaultBlockEntity extends BlockEntity {
     }
 
     /**
-     * Einbahnstrasse: nimmt Leder und Lederbloecke an, bucht den Gegenwert auf
-     * den Besitzer und vernichtet die Items.
+     * One-way street: accepts leather and leather blocks, credits the
+     * equivalent to the owner, and destroys the items.
      *
-     * Das Vernichten ist Absicht. Wuerde das Depot die Bloecke behalten und
-     * wieder herausgeben, koennte man dieselben 64 Bloecke im Kreis pumpen und
-     * den Score beliebig hochtreiben. So kostet jeder Punkt echtes Leder.
+     * The destruction is intentional. If the vault kept the blocks and gave
+     * them back out, you could pump the same 64 blocks in a loop and inflate
+     * the score indefinitely. This way every point costs real leather.
      */
     private class DepotHandler implements IItemHandler {
 
@@ -95,7 +95,7 @@ public class LeatherVaultBlockEntity extends BlockEntity {
                 return stack;
             }
             if (!simulate && level instanceof ServerLevel serverLevel) {
-                // max. 64 * 3.486.784.401 - laeuft in einem long nicht ueber
+                // max. 64 * 3,486,784,401 - doesn't overflow a long
                 long gain = LeatherTiers.valueOf(itemId) * stack.getCount();
                 LeatherDepotData.get(serverLevel).addLeather(owner, ownerName, gain);
             }

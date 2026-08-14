@@ -13,10 +13,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 
 /**
- * Weltweiter Punktestand plus die Info, wer schon ein Depot besitzt.
+ * World-wide score plus the info on who already owns a vault.
  *
- * Haengt bewusst an der Overworld, nicht am jeweiligen Level - sonst haette
- * jede Dimension ihre eigene Bestenliste.
+ * Deliberately attached to the Overworld, not to the respective level -
+ * otherwise every dimension would have its own leaderboard.
  */
 public class LeatherDepotData extends SavedData {
 
@@ -58,7 +58,7 @@ public class LeatherDepotData extends SavedData {
         setDirty();
     }
 
-    /** Nur freigeben, wenn das abgebaute Depot auch wirklich das eingetragene ist. */
+    /** Only release if the broken vault is actually the registered one. */
     public void releaseVault(UUID owner, ServerLevel level, BlockPos pos) {
         VaultLocation known = vaults.get(owner);
         if (known != null
@@ -69,7 +69,7 @@ public class LeatherDepotData extends SavedData {
         }
     }
 
-    // ---- Persistenz -------------------------------------------------------
+    // ---- Persistence --------------------------------------------------------
 
     private static LeatherDepotData load(CompoundTag tag, HolderLookup.Provider registries) {
         LeatherDepotData data = new LeatherDepotData();

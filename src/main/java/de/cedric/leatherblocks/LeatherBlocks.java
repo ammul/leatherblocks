@@ -24,7 +24,7 @@ public class LeatherBlocks {
         NeoForge.EVENT_BUS.addListener(LeatherBlocks::registerCommands);
     }
 
-    /** Ohne das hier ignoriert der Hopper das Depot. */
+    /** Without this, the hopper ignores the vault. */
     private static void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModRegistry.LEATHER_VAULT_BE.get(),
                 (blockEntity, side) -> blockEntity.getHandler());

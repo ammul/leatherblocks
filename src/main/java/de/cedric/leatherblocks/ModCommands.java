@@ -39,8 +39,8 @@ public final class ModCommands {
         }
         source.sendSuccess(() -> Component.translatable("message.leatherblocks.own",
                 LeatherTiers.group(total, LeatherTiers.SERVER_SEPARATOR), rank).withStyle(ChatFormatting.GOLD), false);
-        // Brigadier-Rueckgabewert ist ein int - bei grossen Staenden wuerde ein
-        // Cast ueberlaufen, daher der Platz statt der Menge.
+        // Brigadier's return value is an int - a cast would overflow at large
+        // totals, so the rank is returned instead of the amount.
         return rank;
     }
 

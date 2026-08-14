@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# Alles pruefen, was ohne Minecraft-Abhaengigkeiten pruefbar ist.
+# Checks everything that can be checked without Minecraft dependencies.
 set -e
 cd "$(dirname "$0")/.."
 
-echo "== Ressourcen erzeugen =="
+echo "== Generating resources =="
 python3 tools/generate_resources.py
 
-echo "== Ressourcen validieren =="
+echo "== Validating resources =="
 python3 tools/validate.py
 
-echo "== Kern-Logik testen =="
+echo "== Testing core logic =="
 rm -rf /tmp/leatherblocks-test && mkdir -p /tmp/leatherblocks-test
 javac -d /tmp/leatherblocks-test \
   src/main/java/de/cedric/leatherblocks/LeatherTiers.java \
@@ -17,10 +17,10 @@ javac -d /tmp/leatherblocks-test \
   tools/CoreTest.java
 java -cp /tmp/leatherblocks-test de.cedric.leatherblocks.CoreTest
 
-echo "== Syntaxpruefung der Minecraft-Klassen =="
+echo "== Syntax-checking the Minecraft classes =="
 javac -Xmaxerrs 2000 -d /tmp/leatherblocks-test src/main/java/de/cedric/leatherblocks/*.java 2>&1 \
   | grep ": error:" \
   | grep -v "does not exist" \
   | grep -v "cannot find symbol" \
   | grep -v "does not override or implement" \
-  | { grep . && echo "^ echte Syntaxfehler" && exit 1 || echo "keine Syntaxfehler (nur fehlende MC-Klassen)"; }
+  | { grep . && echo "^ real syntax errors" && exit 1 || echo "no syntax errors (only missing MC classes)"; }

@@ -41,10 +41,10 @@ public class LeatherVaultBlock extends BaseEntityBlock {
     }
 
     /**
-     * Ein Depot pro Spieler. Geprueft wird erst nach dem Setzen: das Depot wird
-     * wieder abgebaut und als Item zurueckgegeben, statt die Platzierung zu
-     * canceln - das ist der Weg, bei dem der Spieler das Item garantiert
-     * behaelt, egal ueber welchen Mod es platziert wurde.
+     * One vault per player. The check happens only after placement: the
+     * vault is broken again and returned as an item, instead of cancelling
+     * the placement - that's the way that guarantees the player keeps the
+     * item, no matter which mod placed it.
      */
     @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
@@ -78,7 +78,7 @@ public class LeatherVaultBlock extends BaseEntityBlock {
         if (!state.is(newState.getBlock()) && level instanceof ServerLevel serverLevel
                 && level.getBlockEntity(pos) instanceof LeatherVaultBlockEntity vault
                 && vault.getOwner() != null) {
-            // Punktestand bleibt erhalten, nur der Platz wird wieder frei.
+            // Score is preserved, only the spot is freed up again.
             LeatherDepotData.get(serverLevel).releaseVault(vault.getOwner(), serverLevel, pos);
         }
         super.onRemove(state, level, pos, newState, movedByPiston);

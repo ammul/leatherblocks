@@ -11,8 +11,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.Block;
 
 /**
- * BlockItem, das im Tooltip anzeigt, wie viel Leder in dem Block steckt.
- * Der Wert ist rein informativ - der Block speichert nichts.
+ * BlockItem that shows how much leather is contained in the block in its tooltip.
+ * The value is purely informational - the block stores nothing.
  */
 public class CompressedLeatherBlockItem extends BlockItem {
 
@@ -27,7 +27,7 @@ public class CompressedLeatherBlockItem extends BlockItem {
     public void appendHoverText(ItemStack stack, Item.TooltipContext context,
                                 List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltip, flag);
-        // Tausendertrennzeichen kommt aus der Sprachdatei: "." fuer de_de, "," fuer en_us.
+        // Thousands separator comes from the language file: "." for de_de, "," for en_us.
         String separator = Component.translatable("tooltip.leatherblocks.group_separator").getString();
         tooltip.add(Component.translatable("tooltip.leatherblocks.worth", LeatherTiers.group(leatherCount, separator))
                 .withStyle(ChatFormatting.DARK_GRAY));

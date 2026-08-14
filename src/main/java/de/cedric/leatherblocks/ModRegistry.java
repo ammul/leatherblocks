@@ -29,7 +29,7 @@ public final class ModRegistry {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, LeatherBlocks.MODID);
 
-    /** Das Lederdepot: ein Stueck pro Spieler, per Hopper befuellbar. */
+    /** The leather vault: one per player, fillable via hopper. */
     public static final DeferredBlock<LeatherVaultBlock> LEATHER_VAULT;
     public static final DeferredItem<? extends Item> LEATHER_VAULT_ITEM;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<LeatherVaultBlockEntity>> LEATHER_VAULT_BE;
@@ -63,10 +63,10 @@ public final class ModRegistry {
         return BlockBehaviour.Properties.of()
                 .mapColor(MapColor.COLOR_BROWN)
                 .sound(SoundType.WOOL)
-                // haerter pro Stufe, aber ohne Werkzeug-Requirement
+                // harder per tier, but without a tool requirement
                 .strength(0.8F + tier * 0.2F)
                 .pushReaction(PushReaction.NORMAL);
-        // Bewusst NICHT .ignitedByLava(): sonst verbrennen dir 6561 Leder auf einmal.
+        // Deliberately NOT .ignitedByLava(): otherwise 6561 leather burns up at once.
     }
 
     private ModRegistry() {
