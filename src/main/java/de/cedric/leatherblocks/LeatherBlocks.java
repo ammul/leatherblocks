@@ -9,6 +9,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
 @Mod(LeatherBlocks.MODID)
 public class LeatherBlocks {
@@ -22,6 +23,7 @@ public class LeatherBlocks {
         modBus.addListener(LeatherBlocks::addToCreativeTab);
         modBus.addListener(LeatherBlocks::registerCapabilities);
         NeoForge.EVENT_BUS.addListener(LeatherBlocks::registerCommands);
+        NeoForge.EVENT_BUS.addListener(LeaderboardBroadcaster::onServerTick);
     }
 
     /** Without this, the hopper ignores the vault. */

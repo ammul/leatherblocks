@@ -60,6 +60,11 @@ nonuple-compressed block.
 
 Right-clicking the vault shows the owner and score in chat.
 
+The leaderboard is also broadcast to every player's chat automatically every
+30 minutes (`LeaderboardBroadcaster`, driven by `ServerTickEvent.Post`) —
+same output as `/leder top`, minus the typing. Stays silent while nobody has
+stored any leather yet.
+
 ## Building
 
 Requires Java 21.

@@ -159,7 +159,7 @@ for folder, suffix in ((f"assets/{MODID}/blockstates", ".json"),
 # 9) Java classes that must exist
 for cls in ("LeatherTiers", "LeatherScores", "LeatherDepotData", "LeatherVaultBlock",
             "LeatherVaultBlockEntity", "ModCommands", "ModRegistry",
-            "CompressedLeatherBlockItem", "LeatherBlocks"):
+            "CompressedLeatherBlockItem", "LeatherBlocks", "LeaderboardBroadcaster"):
     if not os.path.isfile(os.path.join(ROOT, f"src/main/java/de/cedric/leatherblocks/{cls}.java")):
         errors.append(f"Java class missing: {cls}.java")
 # The pure core must not gain Minecraft imports, or it stops being testable

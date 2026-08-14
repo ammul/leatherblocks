@@ -1,5 +1,6 @@
 package de.cedric.leatherblocks;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.mojang.brigadier.CommandDispatcher;
@@ -13,7 +14,7 @@ import net.minecraft.server.level.ServerPlayer;
 
 public final class ModCommands {
 
-    private static final int TOP_LIMIT = 10;
+    public static final int TOP_LIMIT = 10;
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("leder")
@@ -51,15 +52,29 @@ public final class ModCommands {
                     .withStyle(ChatFormatting.GRAY), false);
             return 0;
         }
-        source.sendSuccess(() -> Component.translatable("message.leatherblocks.top_header")
-                .withStyle(ChatFormatting.GOLD), false);
-        for (int i = 0; i < ranking.size(); i++) {
-            LeatherScores.Entry entry = ranking.get(i);
-            int place = i + 1;
-            source.sendSuccess(() -> Component.translatable("message.leatherblocks.top_line",
-                    place, entry.name(), LeatherTiers.group(entry.total(), LeatherTiers.SERVER_SEPARATOR)), false);
+        for (Component message : topMessages(ranking)) {
+            source.sendSuccess(() -> message, false);
         }
         return ranking.size();
+    }
+
+    /**
+     * Header + one line per entry, ready to send to a command source or
+     * broadcast to the whole server. Empty if nobody has stored leather yet.
+     */
+    public static List<Component> topMessages(List<LeatherScores.Entry> ranking) {
+        if (ranking.isEmpty()) {
+            return List.of();
+        }
+        List<Component> messages = new ArrayList<>(ranking.size() + 1);
+        messages.add(Component.translatable("message.leatherblocks.top_header")
+                .withStyle(ChatFormatting.GOLD));
+        for (int i = 0; i < ranking.size(); i++) {
+            LeatherScores.Entry entry = ranking.get(i);
+            messages.add(Component.translatable("message.leatherblocks.top_line",
+                    i + 1, entry.name(), LeatherTiers.group(entry.total(), LeatherTiers.SERVER_SEPARATOR)));
+        }
+        return messages;
     }
 
     private ModCommands() {
