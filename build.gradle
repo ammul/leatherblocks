@@ -30,5 +30,16 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
+// Substitutes ${mod_version} in neoforge.mods.toml with the real version from
+// gradle.properties, so the jar doesn't keep reporting a stale version at
+// the NeoForge handshake after a version bump.
+tasks.named('processResources', ProcessResources) {
+    def replaceProperties = [mod_version: mod_version]
+    inputs.properties replaceProperties
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand replaceProperties
+    }
+}
+
 // Modid-Platzhalter waeren hier moeglich - die Mod nutzt bewusst statische
 // Ressourcen, damit sie ohne runData baubar ist.

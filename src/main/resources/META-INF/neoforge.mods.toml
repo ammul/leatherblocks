@@ -4,7 +4,7 @@ license = "MIT"
 
 [[mods]]
 modId = "leatherblocks"
-version = "1.0.0"
+version = "${mod_version}"
 displayName = "Leather Blocks"
 description = '''Leder laesst sich zu Bloecken pressen - inklusive mehrerer Kompressionsstufen.'''
 
